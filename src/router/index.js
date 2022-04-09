@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import LoginView from "../views/LoginView.vue";
+import signupView from "../views/signupView.vue";
 import { isAuthenticated } from "../utility";
 
 const router = createRouter({
@@ -9,6 +10,12 @@ const router = createRouter({
       path: "/",
       name: "Login",
       component: LoginView,
+      meta: { requiresAuth: false },
+    },
+    {
+      path: "/signup",
+      name: "Signup",
+      component: signupView,
       meta: { requiresAuth: false },
     },
     {

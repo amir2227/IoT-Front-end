@@ -1,6 +1,6 @@
 <template>
   <div class="main-dashboard">
-    <div class="content" style="border: 2px solid var(--va-primary)">
+    <div class="content" >
     <Sidebar />
       <div class="dashboard-content">
         <RouterView />

@@ -1,8 +1,10 @@
 <template>
   <va-card style="padding: 0.75rem">
-    <va-card-title>ورود</va-card-title>
+    <va-card-title>ثبت نام</va-card-title>
     <va-card-content>
       <va-form style="width: 300px" tag="form" @submit.prevent="handleSubmit">
+        <va-input v-model="fullname" label="نام و نام خانوادگی" />
+        <va-input v-model="phone" label="شماره همراه" />
         <va-input v-model="username" label="نام کاربری" />
 
         <va-input
@@ -12,9 +14,9 @@
           label="کلمه عبور"
         />
 
-        <va-button type="submit" class="mt-2"> ورود </va-button>
+        <va-button type="submit" class="mt-2"> ثبت نام </va-button>
       </va-form>
-      <router-link to="/signup">ثبت نام</router-link>
+      <router-link to="/">ورود</router-link>
     </va-card-content>
   </va-card>
 </template>
@@ -29,21 +31,28 @@ export default {
     return {
       username: "",
       password: "",
+      fullname: "",
+      phone: "",
     };
   },
   methods: {
     handleSubmit() {
-      const login_URL = API_URL + "/api/auth/signin";
+      const SIGNUP_URL = API_URL + "/api/auth/signup";
       this.axios
-        .post(login_URL, {
+        .post(SIGNUP_URL, {
           username: this.username,
           password: this.password,
+          fullname: this.fullname,
+          phone: this.phone,
         })
         .then((response) => {
-          localStorage.setItem("profile", JSON.stringify(response.data));
+          
+        })
+        .catch((error) =>{
+
         });
 
-      this.$router.push("/dashboard");
+      this.$router.push("/");
     },
   },
 };
