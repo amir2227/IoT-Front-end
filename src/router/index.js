@@ -30,6 +30,12 @@ const router = createRouter({
       component: () => import("../views/SensorView.vue"),
       meta: { requiresAuth: true },
     },
+    {
+      path: "/operators",
+      name: "Operators",
+      component: () => import("../views/OperatorView.vue"),
+      meta: { requiresAuth: true },
+    },
   ],
 });
 

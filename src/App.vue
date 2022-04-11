@@ -11,20 +11,7 @@
 <script >
 import Sidebar from "./components/Sidebar.vue";
 export default {
-    data() {
-        return {
-            items: [
-                {
-                    title: "داشبورد",
-                    icon: "dashboard",
-                    // active: true,
-                    link: "/dashboard",
-                },
-                { title: "مدیریت سنسور", icon: "room", link: "/sensors" },
-                { title: "بقیه موراد", icon: "loop", link: "dump" },
-            ],
-        };
-    },
+    
     components: { Sidebar }
 };
 </script>

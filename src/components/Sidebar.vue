@@ -26,6 +26,7 @@ export default {
           link: "/dashboard",
         },
         { title: "مدیریت سنسور", icon: "room", link: "/sensors" },
+        { title: "مدیریت عملگر", icon: "room", link: "/operators" },
         { title: "بقیه موراد", icon: "loop", link: "dump" },
       ],
     };
