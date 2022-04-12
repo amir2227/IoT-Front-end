@@ -31,6 +31,9 @@ export default {
 </script>
 <style>
 @import "@/assets/base.css";
+main{
+  display: contents;
+}
 #app,
 .main-dashboard,
 .auth-dashboard {

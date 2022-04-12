@@ -28,13 +28,13 @@ const router = createRouter({
       path: "/sensors",
       name: "Sensors",
       component: () => import("../views/SensorView.vue"),
-      meta: { requiresAuth: true ,layout:'authLayout'},
+      meta: { requiresAuth: true ,layout:'dashLayout'},
     },
     {
       path: "/operators",
       name: "Operators",
       component: () => import("../views/OperatorView.vue"),
-      meta: { requiresAuth: true },
+      meta: { requiresAuth: true,layout:'dashLayout' },
     },
   ],
 });
