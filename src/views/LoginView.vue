@@ -22,9 +22,7 @@
 <script>
 import { API_URL } from "../constant";
 export default {
-  mounted() {
-    console.log("hi");
-  },
+  mounted() {},
   data() {
     return {
       username: "",
@@ -41,9 +39,19 @@ export default {
         })
         .then((response) => {
           localStorage.setItem("profile", JSON.stringify(response.data));
+          this.$router.push("/dashboard");
+        })
+        .catch((error) => {
+          const { response } = error;
+          if (response.status === 401) {
+            this.$vaToast.init({
+              message: "نام کاربری یا کلمه عبور اشتباه است",
+              color: "danger",
+              duration: 5000,
+              position: "top-left",
+            });
+          }
         });
-
-      this.$router.push("/dashboard");
     },
   },
 };

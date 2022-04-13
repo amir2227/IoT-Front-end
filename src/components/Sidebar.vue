@@ -1,23 +1,24 @@
 <template>
-      <va-sidebar :minimized="minimized" textColor="dark" minimizedWidth="64px">
-        <template v-for="item in items" :key="item.to">
-          <va-sidebar-item :active="item.active">
-            <router-link :to="item.link">
-              <va-sidebar-item-content>
-                <va-icon :name="item.icon" />
-                <va-sidebar-item-title v-if="!minimized" style="height: 24px">
-                  {{ item.title }}
-                </va-sidebar-item-title>
-              </va-sidebar-item-content>
-            </router-link>
-          </va-sidebar-item>
-        </template>
-      </va-sidebar>
+  <va-sidebar :minimized="minimized" textColor="dark" minimizedWidth="64px">
+    <template v-for="item in items" :key="item.to">
+      <va-sidebar-item :active="item.active">
+        <router-link :to="item.link">
+          <va-sidebar-item-content>
+            <va-icon :name="item.icon" />
+            <va-sidebar-item-title v-if="!minimized" style="height: 24px">
+              {{ item.title }}
+            </va-sidebar-item-title>
+          </va-sidebar-item-content>
+        </router-link>
+      </va-sidebar-item>
+    </template>
+  </va-sidebar>
 </template>
 <script >
 export default {
   data() {
     return {
+      minimized: false,
       items: [
         {
           title: "داشبورد",

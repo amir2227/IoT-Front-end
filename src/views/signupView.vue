@@ -23,10 +23,9 @@
 
 <script>
 import { API_URL } from "../constant";
+import { getCurrentInstance } from "vue";
+
 export default {
-  mounted() {
-    console.log("hi");
-  },
   data() {
     return {
       username: "",
@@ -46,13 +45,27 @@ export default {
           phone: this.phone,
         })
         .then((response) => {
-          
+          if (response.status === 200) {
+            this.$vaToast.init({
+              message: "ثبت نام موفقیت آمیز بود",
+              color: "success",
+              duration: 5000,
+              position: "top-left",
+            });
+            this.$router.push("/");
+          }
         })
-        .catch((error) =>{
-
+        .catch((error) => {
+          const { response } = error;
+          Object.keys(response.data).map((e) => {
+            this.$vaToast.init({
+              message: `${e} : ${response.data[e]}`,
+              color: "danger",
+              duration: 5000,
+              position: "top-left",
+            });
+          });
         });
-
-      this.$router.push("/");
     },
   },
 };

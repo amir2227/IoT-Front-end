@@ -7,11 +7,12 @@
           <th>نام</th>
           <th>نوع</th>
           <th>لوکیشن</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="sensor in sensors" :key="sensor.id">
-          <td>{{ sensor.id }}</td>
+        <tr v-for="(sensor, index) in sensors" :key="sensor.id">
+          <td>{{ index + 1 }}</td>
           <td>{{ sensor.name }}</td>
           <td>{{ sensor.type }}</td>
           <td>{{ sensor.location }}</td>
@@ -22,16 +23,7 @@
       </tbody>
     </table>
   </div>
-  <div>
-    <va-pagination
-      :visible-pages="7"
-      v-model="value"
-      :total="100"
-      boundary-numbers
-      :page-size="3"
-    />
-    Current value: {{ value }}
-  </div>
+  <div>تعداد کل: {{ value }}</div>
 </template>
 <script>
 import { API_URL } from "../constant";
@@ -55,8 +47,8 @@ export default {
         },
       })
       .then((response) => {
-        console.log(response.data);
         this.sensors = response.data;
+        this.value = response.data.length;
       });
   },
   components: { ButtonGroup },
