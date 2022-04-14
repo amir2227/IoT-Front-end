@@ -23,7 +23,7 @@
       </tbody>
     </table>
   </div>
-  <div>تعداد کل: {{ value }}</div>
+  <div></div>
 </template>
 <script>
 import { API_URL } from "../constant";
@@ -35,7 +35,18 @@ export default {
     return {
       sensors: [],
       value: 1,
+      pageSize: 3,
+      currentPage: 1,
     };
+  },
+  methods: {
+    nextPage: function () {
+      if (this.currentPage * this.pageSize < this.sensors.length)
+        this.currentPage++;
+    },
+    prevPage: function () {
+      if (this.currentPage > 1) this.currentPage--;
+    },
   },
   mounted() {
     const login_URL = API_URL + "/api/device/sensor";
