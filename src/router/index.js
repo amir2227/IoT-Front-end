@@ -36,6 +36,12 @@ const router = createRouter({
       component: () => import("../views/OperatorView.vue"),
       meta: { requiresAuth: true,layout:'dashLayout' },
     },
+    {
+      path: "/locations",
+      name: "Locations",
+      component: () => import("../views/LocationView.vue"),
+      meta: { requiresAuth: true,layout:'dashLayout' },
+    },
   ],
 });
 
