@@ -15,9 +15,13 @@
           <td>{{ index + 1 }}</td>
           <td>{{ sensor.name }}</td>
           <td>{{ sensor.type }}</td>
-          <td>{{ sensor.location }}</td>
+          <td v-if="sensor.location != null">{{ sensor.location.name }}</td>
+          <td v-else></td>
           <td>
-            <ButtonGroup />
+            <ButtonGroup 
+            :sensor-id="sensor.id" 
+            :edit-comp="Edit"
+            :fetch-data="fetchData"/>
           </td>
         </tr>
       </tbody>
@@ -29,6 +33,7 @@
 import { API_URL } from "../constant";
 import { getToken } from "../utility";
 import ButtonGroup from "../components/ButtonGroup.vue";
+import EditSensor from "../components/EditSensor.vue";
 
 export default {
   data() {
@@ -37,9 +42,24 @@ export default {
       value: 1,
       pageSize: 3,
       currentPage: 1,
+      Edit: EditSensor,
     };
   },
   methods: {
+    fetchData() {
+      const login_URL = API_URL + "/api/device/sensor";
+      const token = getToken();
+      this.axios
+        .get(login_URL, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        })
+        .then((response) => {
+          this.sensors = response.data;
+          this.value = response.data.length;
+        });
+    },
     nextPage: function () {
       if (this.currentPage * this.pageSize < this.sensors.length)
         this.currentPage++;
@@ -49,20 +69,9 @@ export default {
     },
   },
   mounted() {
-    const login_URL = API_URL + "/api/device/sensor";
-    const token = getToken();
-    this.axios
-      .get(login_URL, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((response) => {
-        this.sensors = response.data;
-        this.value = response.data.length;
-      });
+    this.fetchData();
   },
-  components: { ButtonGroup },
+  components: { ButtonGroup, EditSensor },
 };
 </script>
 <style scoped>

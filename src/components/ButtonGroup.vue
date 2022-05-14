@@ -14,6 +14,7 @@
             <tr>
               <th>ردیف</th>
               <th>تاریخ</th>
+              <th>ساعت</th>
               <th>وضعیت</th>
             </tr>
           </thead>
@@ -23,6 +24,9 @@
               <td>
                 {{ new Date(history.updated_at).toLocaleDateString("fa-IR") }}
               </td>
+              <td>
+                {{ getTime(history.updated_at) }}
+              </td>
               <td v-if="history.state == true">
                 <va-icon
                   name="radio_button_checked"
@@ -30,13 +34,14 @@
                   class="mr-4"
                 />
               </td>
-              <td v-else>
+              <td v-else-if="history.state == false">
                 <va-icon
                   name="radio_button_checked"
                   color="#d44242"
                   class="mr-4"
                 />
               </td>
+              <td v-else>{{ history.data }}</td>
             </tr>
           </tbody>
         </table>
@@ -56,6 +61,7 @@
         :operator-id="operatorId"
         :fetch-data="fetchData"
         :hide-modal="closeModal"
+        :sensor-id="sensorId"
       ></component>
     </va-modal>
     <va-button
@@ -96,13 +102,17 @@ export default {
       showDeleteModal: false,
       showHistoryModal: false,
       operatorHistory: [],
+      sensorHistory: [],
     };
   },
   methods: {
     showHistory() {
       this.showHistoryModal = !this.showHistoryModal;
-      const URL =
-        API_URL + "/api/device/operator/" + this.operatorId + "/history";
+      let URL = "";
+      if (this.operatorId)
+        URL = API_URL + "/api/device/operator/" + this.operatorId + "/history";
+      else if (this.sensorId)
+        URL = API_URL + "/api/device/sensor/" + this.sensorId + "/history";
       const token = getToken();
       this.axios
         .get(URL, {
@@ -116,11 +126,16 @@ export default {
           }
         });
     },
+
     closeModal() {
       this.showModal = !this.showModal;
     },
     deleteOperator() {
-      const URL = API_URL + "/api/device/operator/" + this.operatorId;
+      let URL = "";
+      if (this.operatorId)
+        URL = API_URL + "/api/device/operator/" + this.operatorId;
+      else if (this.sensorId)
+        URL = API_URL + "/api/device/sensor/" + this.sensorId;
       const token = getToken();
       this.axios
         .delete(URL, {
@@ -152,9 +167,20 @@ export default {
           });
         });
     },
+    getTime(timestamp) {
+      const d = new Date(timestamp);
+      let h = d.getHours();
+      let m = d.getMinutes();
+      let s = d.getSeconds();
+      if (m < 10) m = "0" + m;
+      if (h < 10) h = "0" + h;
+      if (s < 10) s = "0" + s;
+      const t = h + ":" + m + ":" + s;
+      return t;
+    },
   },
 
-  props: ["editComp", "operatorId", "fetchData"],
+  props: ["editComp", "operatorId", "fetchData", "sensorId"],
 };
 </script>
 

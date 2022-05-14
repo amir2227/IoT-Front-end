@@ -91,6 +91,7 @@
               :edit-comp="Edit"
               :operator-id="operator.id"
               :fetch-data="fetchData"
+              :view-type="operator"
             />
           </td>
         </tr>
