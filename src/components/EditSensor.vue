@@ -2,7 +2,7 @@
   <div class="row">
     <div class="flex md6 lg12">
       <va-card>
-        <va-card-title>  مشخصات سنسور</va-card-title>
+        <va-card-title> مشخصات سنسور</va-card-title>
         <va-card-content>
           <div>
             <va-form
@@ -21,14 +21,13 @@
     </div>
   </div>
   <div class="row">
-    <div class="flex md6 lg12">
-     
-    </div>
+    <div class="flex md6 lg12"></div>
   </div>
 </template>
 <script>
 import { API_URL } from "../constant";
 import { getToken } from "../utility";
+
 export default {
   data() {
     return {
@@ -58,7 +57,6 @@ export default {
   },
   props: ["sensorId", "fetchData", "hideModal"],
   methods: {
-   
     handleSubmit() {
       const URL = API_URL + "/api/device/sensor/" + this.sensorId;
       const token = getToken();

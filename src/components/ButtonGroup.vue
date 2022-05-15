@@ -49,15 +49,19 @@
     </va-modal>
     <va-modal
       v-model="showChartModal"
-      title="گزارش"
+      title="نمودار"
       hide-default-actions
       overlay-opacity="0.5"
+      size="large"
     >
       <div class="container">
         <div class="row mt-5" v-if="sensorData.length > 0">
           <div class="col">
-            <h2>نمودار سنسور</h2>
-            <line-chart :chartData="sensorData" :options="chartOptions" :label="chart"></line-chart>
+
+            <LineChart
+              :chartdata="sensorData"
+              :label="salam"
+            />
           </div>
         </div>
       </div>
@@ -108,7 +112,7 @@
 <script>
 import { API_URL } from "../constant";
 import { getToken } from "../utility";
-import LineChart from "./LineChart.vue";
+import LineChart from "./LineChart.vue"
 
 export default {
   data() {
@@ -117,15 +121,14 @@ export default {
       showDeleteModal: false,
       showHistoryModal: false,
       showChartModal: false,
+      salam: "salam",
       operatorHistory: [],
       sensorData: [],
-      chartOptions: {
-        responsive: true,
-        maintainAspectRatio: false
-      }
+      loaded: false,
+    
     };
   },
-  components: { LineChart },
+  components:{ LineChart },
   methods: {
     showHistory() {
       let URL = "";
@@ -145,6 +148,8 @@ export default {
           });
         this.showHistoryModal = !this.showHistoryModal;
       } else if (this.sensorId) {
+        this.loaded = false;
+        this.sensorData = [];
         URL = API_URL + "/api/device/sensor/" + this.sensorId + "/history";
         this.axios
           .get(URL, {
@@ -156,16 +161,16 @@ export default {
             if (response.status === 200) {
               response.data.results.forEach((element) => {
                 const date =
-                  new Date(element.updated_at).toLocaleDateString("fa-IR") +
+                  new Date(element.updated_at).toLocaleDateString("fa-IR").substring(5,10) +
                   " " +
-                  this.getTime(element.updated_at);
+                  this.getTime(element.updated_at).substring(0,5);
 
                 this.sensorData.push({ date, total: element.data });
               });
-              console.log(this.sensorData);
             }
           });
         this.showChartModal = !this.showChartModal;
+        this.loaded = true;
       }
     },
 
@@ -217,9 +222,18 @@ export default {
       if (m < 10) m = "0" + m;
       if (h < 10) h = "0" + h;
       if (s < 10) s = "0" + s;
+     
       const t = h + ":" + m + ":" + s;
-      return t;
+      return this.persiaNumber(t);
     },
+    persiaNumber(number){
+       const en_number = number.toString();
+       const persianDigits = "۰۱۲۳۴۵۶۷۸۹";
+       const persianMap = persianDigits.split("");
+       return en_number.replace(/\d/g, function (m) {
+         return persianMap[parseInt(m)];
+       });
+    }
   },
 
   props: ["editComp", "operatorId", "fetchData", "sensorId"],
@@ -230,7 +244,9 @@ export default {
 .va-button {
   margin-left: 9px;
 }
-
+.chart{
+  display: flex;
+}
 .va-modal .va-alert {
   padding: 25px;
 }
