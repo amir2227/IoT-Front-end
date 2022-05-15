@@ -47,7 +47,21 @@
         </table>
       </div>
     </va-modal>
-
+    <va-modal
+      v-model="showChartModal"
+      title="گزارش"
+      hide-default-actions
+      overlay-opacity="0.5"
+    >
+      <div class="container">
+        <div class="row mt-5" v-if="sensorData.length > 0">
+          <div class="col">
+            <h2>نمودار سنسور</h2>
+            <line-chart :chartData="sensorData" :options="chartOptions" :label="chart"></line-chart>
+          </div>
+        </div>
+      </div>
+    </va-modal>
     <va-button icon="edit" color="info" @click="showModal = !showModal" />
 
     <va-modal
@@ -94,6 +108,7 @@
 <script>
 import { API_URL } from "../constant";
 import { getToken } from "../utility";
+import LineChart from "./LineChart.vue";
 
 export default {
   data() {
@@ -101,30 +116,57 @@ export default {
       showModal: false,
       showDeleteModal: false,
       showHistoryModal: false,
+      showChartModal: false,
       operatorHistory: [],
-      sensorHistory: [],
+      sensorData: [],
+      chartOptions: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
     };
   },
+  components: { LineChart },
   methods: {
     showHistory() {
-      this.showHistoryModal = !this.showHistoryModal;
       let URL = "";
-      if (this.operatorId)
-        URL = API_URL + "/api/device/operator/" + this.operatorId + "/history";
-      else if (this.sensorId)
-        URL = API_URL + "/api/device/sensor/" + this.sensorId + "/history";
       const token = getToken();
-      this.axios
-        .get(URL, {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            this.operatorHistory = response.data.results;
-          }
-        });
+      if (this.operatorId) {
+        URL = API_URL + "/api/device/operator/" + this.operatorId + "/history";
+        this.axios
+          .get(URL, {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          })
+          .then((response) => {
+            if (response.status === 200) {
+              this.operatorHistory = response.data.results;
+            }
+          });
+        this.showHistoryModal = !this.showHistoryModal;
+      } else if (this.sensorId) {
+        URL = API_URL + "/api/device/sensor/" + this.sensorId + "/history";
+        this.axios
+          .get(URL, {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          })
+          .then((response) => {
+            if (response.status === 200) {
+              response.data.results.forEach((element) => {
+                const date =
+                  new Date(element.updated_at).toLocaleDateString("fa-IR") +
+                  " " +
+                  this.getTime(element.updated_at);
+
+                this.sensorData.push({ date, total: element.data });
+              });
+              console.log(this.sensorData);
+            }
+          });
+        this.showChartModal = !this.showChartModal;
+      }
     },
 
     closeModal() {
