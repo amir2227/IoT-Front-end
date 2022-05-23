@@ -55,8 +55,7 @@
                       label="انتخاب والد"
                       :options="options"
                       v-model="parent_id"
-                      :track-by="(option) => option.value"
-                      :value="(option) => option.value"
+                      
                       searchable
                     />
                   </div>
@@ -142,7 +141,7 @@ export default {
           {
             name: this.name,
             type: this.type,
-            parent_id: this.parent_id,
+            parent_id: this.parent_id.value,
           },
           {
             headers: {
@@ -179,7 +178,7 @@ export default {
     locations(newLocations, oldLocations) {
       newLocations.length > 0 &&
         this.locations.map((loc) =>
-          this.options.push({ text: loc.name, textBy: loc.type, value: loc.id })
+          this.options.push({ text: loc.name, value: loc.id })
         );
 
       console.log("fuck befor");

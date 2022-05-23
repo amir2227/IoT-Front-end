@@ -22,7 +22,11 @@
 <script>
 import { API_URL } from "../constant";
 export default {
-  mounted() {},
+  mounted() {
+    console.log("fucck");
+    console.log(process.env.BACK_URL);
+    
+  },
   data() {
     return {
       username: "",
