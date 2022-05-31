@@ -41,6 +41,7 @@ main{
   position: absolute;
   width: 100%;
   direction: rtl;
+  background: #e3e3e3;
 }
 .content {
   height: 100%;

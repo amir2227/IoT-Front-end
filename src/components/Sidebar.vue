@@ -1,5 +1,8 @@
 <template>
   <va-sidebar :minimized="minimized" textColor="dark" minimizedWidth="64px">
+    <div style="height: 50px; background: #97a2ad; text-align: center" @click="minimized = !minimized">
+      <va-icon name="sync_alt" style="margin-top: 10px" />
+    </div>
     <template v-for="item in items" :key="item.to">
       <va-sidebar-item :active="item.active">
         <router-link :to="item.link">
@@ -26,8 +29,8 @@ export default {
           // active: true,
           link: "/dashboard",
         },
-        { title: "مدیریت سنسور", icon: "room", link: "/sensors" },
-        { title: "مدیریت عملگر", icon: "room", link: "/operators" },
+        { title: "مدیریت سنسور", icon: "sensors", link: "/sensors" },
+        { title: "مدیریت عملگر", icon: "emoji_objects", link: "/operators" },
         { title: "مدیریت لوکیشن", icon: "room", link: "/locations" },
         { title: "بقیه موراد", icon: "loop", link: "#" },
       ],
@@ -35,3 +38,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.va-icon{
+  padding-left: 20px;
+}
+</style>
