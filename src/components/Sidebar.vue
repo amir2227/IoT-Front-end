@@ -32,6 +32,7 @@ export default {
         { title: "مدیریت سنسور", icon: "sensors", link: "/sensors" },
         { title: "مدیریت عملگر", icon: "emoji_objects", link: "/operators" },
         { title: "مدیریت لوکیشن", icon: "room", link: "/locations" },
+        { title: "مدیریت سناریو", icon: "hub", link: "/scenarios" },
         { title: "دانشنامه گیاهان آپارتمانی", icon: "yard", link: "/plants" },
         { title: "بقیه موراد", icon: "loop", link: "#" },
       ],

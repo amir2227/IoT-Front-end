@@ -5,6 +5,7 @@
       placeholder="Filter..."
       v-model="filter"
       @keyup="fetchData"
+      @keydown="page=1"
     />
     <div class="flex md12 lg12">
       <div class="va-table-responsive">

@@ -55,7 +55,6 @@
                       label="انتخاب والد"
                       :options="options"
                       v-model="parent_id"
-                      
                       searchable
                     />
                   </div>
@@ -196,8 +195,15 @@ export default {
 .va-table {
   width: 100%;
 }
+.va-table th{
+  font-weight: bolder;
+  font-size: 15px;
+}
 .va-button {
   direction: initial;
   margin-right: 40px;
+}
+.va-input {
+  margin-left: 6px;
 }
 </style>

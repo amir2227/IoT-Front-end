@@ -185,6 +185,10 @@ export default {
 .va-table {
   width: 100%;
 }
+.va-table th{
+  font-weight: bolder;
+  font-size: 15px;
+}
 .va-button {
   direction: initial;
   margin-right: 10%;
